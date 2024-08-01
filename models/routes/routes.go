@@ -11,5 +11,5 @@ func InitRoutes(r *gin.RouterGroup) {
 	r.GET("/posts/:id", controller.FindPost)
 	r.POST("/posts", controller.CreatePost)
 	r.DELETE("/posts/:id", controller.DeletePost)
-	//r.PUT("/posts", controller.UpdatePost)
+	r.PUT("/posts", controller.UpdatePost)
 }

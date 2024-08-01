@@ -128,3 +128,33 @@ func DeletePost(c *gin.Context) {
 		"message": "User deleted sucessfully!",
 	})
 }
+
+// UpdatePost this function update a post
+func UpdatePost(c *gin.Context) {
+	var post models.Post
+	query := `UPDATE posts SET title = ?, content = ?, date = ? WHERE id = ?`
+
+	if err := c.BindJSON(&post); err != nil {
+		c.IndentedJSON(404, gin.H{
+			"code":  404,
+			"error": err.Error(),
+		})
+		return
+	}
+
+	post.Date = currentTime
+
+	_, err := initializers.DB.Exec(query, post.Title, post.Content, post.Date, post.ID)
+	if err != nil {
+		c.IndentedJSON(500, gin.H{
+			"code":  500,
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.IndentedJSON(200, gin.H{
+		"code":    200,
+		"message": "Post updated sucessfully!",
+	})
+}
